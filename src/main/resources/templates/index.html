@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Front Page</title>
+</head>
+<body>
+<p></p>
+<form method="POST" th:action="@{/xml}" th:object="${xmlPath}">
+    <p>XML MANAGER</p>
+    <label for="xmlPathInput">Zdefiniuj sciężkę do zapisu plików XML</label>
+    <br/>
+    <input type="text" id="xmlPathInput" th:field="*{xmlPath}" />
+    <br/>
+    <input type="submit" value="ZAPISZ"/>
+</form>
+<br/>
+<br/>
+<br/>
+<form method="POST" th:action="@{/}" th:object="${SearchQuery}">
+    <p>Wyszukiwarka</p>
+    <label for="nameQuery">Nazwa komputera</label>
+    <input type="text" id="nameQuery" th:field="*{nameQuery}" />
+    <br/>
+    <input type="radio" id="nameAsc" name="fav" value="ASC" th:checked="*{nameOrderBy}" th:field="*{nameOrderBy}"/>
+    <label for="nameAsc"> Nazwa ASC</label>
+
+    <input type="radio" id="nameDesc" name="fav" value="DESC" th:field="*{nameOrderBy}"/>
+    <label for="nameDesc"> Nazwa DESC</label>
+    <br/>
+    <br/>
+    <label for="dateQuery">Data zaksięgowania</label>
+    <input type="text" id="dateQuery" title="np.: 2022-01-10" th:field="*{dateQuery}" />
+
+    <br/>
+    <input type="radio" id="dateAsc" name="date" value="ASC" th:checked="*{dateOrderBy}" th:field="*{dateOrderBy}"/>
+    <label for="dateAsc"> Data zaksięgowania ASC</label>
+
+    <input type="radio" id="dateDesc" name="date" value="DESC" th:field="*{dateOrderBy}"/>
+    <label for="dateDesc"> Data zaksięgowania DESC</label>
+    <br/>
+    <br/>
+    <input type="checkbox" id="ignoreOrderBy" name="ignore" th:field="*{ignoreOrderBy}"/>
+    <label for="ignoreOrderBy">Ignoruj sortowanie</label>
+    <br/>
+    <input type="submit" value="SZUKAJ"/>
+</form>
+<br/>
+<br/>
+<form method="POST" th:action="@{/calculate}" th:object="${date}">
+    <label for="date">Generuj koszt komputerów dla dnia</label>
+    <input type="date" id="date" th:field="*{data}"/>
+    <br/>
+    <input type="submit" value="GENERUJ"/>
+</form>
+<p style="font-size:30px" color="red" th:text="*{error}">alt</p>
+<p>Lista komputerów</p>
+<table>
+    <tr>
+    <th>nr</th>
+    <th>nazwa</th>
+    <th>data księgowania</th>
+    <th>koszt USD</th>
+    <th>koszt PLN</th>
+    </tr>
+    <tr data-th-each="computer,iterStat : ${computers}">
+        <td data-th-text="${iterStat.count}">...</td>
+        <td data-th-text="${computer.id.name}"> ...</td>
+        <td data-th-text="${computer.id.date}"> ...</td>
+        <td data-th-text="${computer.costUSD}"> ...</td>
+        <td data-th-text="${computer.costPLN}"> ...</td>
+    </tr>
+</table>
+
+</body>
+</html>
